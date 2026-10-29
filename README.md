@@ -1,26 +1,30 @@
 # Pedkai Synthetic Data Generator
 
-A UK-scale converged telecom operator dataset generator for [Pedkai](https://github.com/your-org/pedkai) — producing radio-layer physics, multi-domain KPIs, scenario injection, and CMDB degradation data for Dark Graph training and ML model development.
+A national-scale converged telecom operator dataset generator for **Pedk.ai** (see [About Pedk.ai](#about-pedkai)) — producing radio-layer physics, multi-domain KPIs, scenario injection, and CMDB degradation data for Dark Graph training and ML model development.
 
 > **Origin:** This repo was forked from [Sleeping-Cell-KPI-Data](https://github.com/adityonugrohoid/telecom-digital-twin) (3 CSV files of sleeping cell KPIs) and later renamed to `pedkai_generator` once its scope outgrew the original. The original CSV files are preserved in the repo root for reference.
->
-> **About Pedk.ai**
-Pedk.ai is an AI-native network operations intelligence platform for telecom operators. It finds the Dark Graph: the undocumented dependencies, phantom configuration items and silently degraded cells that inventory and assurance systems never see.
 
-> **How it works, in outline:*
+## About Pedk.ai
 
->>Abeyance Memory. Holds unresolved evidence fragments until later, unrelated evidence corroborates them into ranked, confidence-scored hypotheses.
->>Retrieval. PostgreSQL with pgvector. Temporal-semantic and topology-enriched embeddings let an event in one network domain (transport) match an event in another (RAN) with no shared vocabulary.
->>Reasoning. Dempster-Shafer and Noisy-OR evidence fusion, causal discovery, and an LLM agent that builds an explainable evidence chain, not a bare score.
->>Governance. Graduated autonomy (Level 0 Observe to Level 3 Gated Autonomous), human override, full audit trail and kill-switch. On-premises inference for operator data sovereignty.
+Pedk.ai is an AI-native network operations intelligence platform for telecom operators. It finds the **Dark Graph**: the undocumented dependencies, phantom configuration items and silently degraded cells that inventory and assurance systems never see.
 
->>The Pedk.ai platform is private. This generator is public because operators cannot share customer network data. It is how Pedk.ai is trained and tested without it.
+How it works, in outline:
 
->*Why this generator exists?*
->Real operator data is confidential, incomplete and wrong in ways nobody has recorded. To prove that Pedk.ai finds those errors, the test data must contain known errors. This generator builds a full converged operator (radio physics, multi-domain KPIs, topology, customers), then deliberately corrupts the CMDB in six documented ways. The ground truth is kept, so every finding Pedk.ai makes can be scored.
+- **Abeyance Memory.** Holds unresolved evidence fragments until later, unrelated evidence corroborates them into ranked, confidence-scored hypotheses.
+- **Retrieval.** PostgreSQL with pgvector. Temporal-semantic and topology-enriched embeddings let an event in one network domain (transport) match an event in another (RAN) with no shared vocabulary.
+- **Reasoning.** Dempster-Shafer and Noisy-OR evidence fusion, causal discovery, and an LLM agent that builds an explainable evidence chain, not a bare score.
+- **Governance.** Graduated autonomy (Level 0 Observe to Level 3 Gated Autonomous), human override, full audit trail and kill-switch. On-premises inference for operator data sovereignty.
 
->Author
->Himanshu Thakur – founder and architect of Pedk.ai (HT Advisers Limited). 25 years in telecom OSS/BSS architecture at Three UK/VodafoneThree, Nokia, Ericsson, MBNL and BT. LinkedIn · Pedk.ai code available for review on request.
+The Pedk.ai platform is private. **This generator is public** because operators cannot share customer network data. It is how Pedk.ai is trained and tested without it.
+
+## Why this generator exists
+
+Real operator data is confidential, incomplete and wrong in ways nobody has recorded. To prove that Pedk.ai finds those errors, the test data must contain known errors. This generator builds a full converged operator (radio physics, multi-domain KPIs, topology, customers), then deliberately corrupts the CMDB in six documented ways. The ground truth is kept, so every finding Pedk.ai makes can be scored.
+
+## Author
+
+**Himanshu Thakur** – founder and architect of Pedk.ai (HT Advisers Limited). 25 years in telecom OSS/BSS architecture at Three UK/VodafoneThree, Nokia, Ericsson, MBNL and BT.
+[LinkedIn](https://www.linkedin.com/in/himanshuthakur/) · Pedk.ai code available for review on request.
 
 ---
 
@@ -54,7 +58,11 @@ The generator produces **~6.6 GB across 21 Parquet files** representing a realis
 - **1M sampled customers** with BSS/billing data
 - **Ericsson & Nokia** vendor naming layers
 
-All outputs are deterministic (seeded) and reproducible. The full design context is captured in [`THREAD_SUMMARY_SYNTHETIC_DATA_GENERATOR.md`](./THREAD_SUMMARY_SYNTHETIC_DATA_GENERATOR.md).
+> **Why Indonesia?** The geography is deliberately non-UK. No data from any UK operator or client was used, and choosing a country I have no connection to makes that plain. It also follows the original Sleeping-Cell-KPI-Data source, which came from Indonesia. The network is sized like a UK national operator.
+
+> **Review trail.** The dataset went through a structured hostile audit, a remediation response, a review verdict and a regeneration against a 16-check pre-production gate (`validate_gate.py`). The full trail is in [`docs/reviews/`](./docs/reviews/).
+
+All outputs are deterministic (seeded) and reproducible. The full design context is captured in [`THREAD_SUMMARY_SYNTHETIC_DATA_GENERATOR.md`](./docs/design/THREAD_SUMMARY_SYNTHETIC_DATA_GENERATOR.md).
 
 > **ID Policy — Mandatory UUIDv7:** All entity, relationship, alarm, scenario, and fragment IDs across every pipeline step use a **deterministic UUIDv7** implementation seeded by NumPy's `default_rng`. The helper `_uuid_v7(rng)` is present in every generator module. `uuid.uuid4()` (non-deterministic) has been completely eliminated from all generator source files, enforceable with `grep -r uuid4 src/pedkai_generator --include='*.py'` returning zero results.
 
@@ -534,7 +542,8 @@ This helper is present in every generator module. `uuid.uuid4()` is fully absent
 ```
 pedkai_generator/
 ├── README.md                                    ← This file
-├── THREAD_SUMMARY_SYNTHETIC_DATA_GENERATOR.md   ← Full design context (878 lines)
+├── docs/design/THREAD_SUMMARY_SYNTHETIC_DATA_GENERATOR.md   ← Full design context (878 lines)
+├── docs/reviews/                                ← Hostile audit, remediation and gate review trail
 ├── pyproject.toml                               ← Package config, dependencies, CLI entrypoint
 ├── src/
 │   └── pedkai_generator/
@@ -735,7 +744,7 @@ Phase 0 (Schema)
 
 The full design context — including source codebase review, Pedkai ingestion pathway analysis, complete topology model, CMDB reconciliation strategy, and ML considerations — is documented in:
 
-- **[`THREAD_SUMMARY_SYNTHETIC_DATA_GENERATOR.md`](./THREAD_SUMMARY_SYNTHETIC_DATA_GENERATOR.md)** — 878-line design document covering all decisions
+- **[`THREAD_SUMMARY_SYNTHETIC_DATA_GENERATOR.md`](./docs/design/THREAD_SUMMARY_SYNTHETIC_DATA_GENERATOR.md)** — 878-line design document covering all decisions
 
 ### Key 3GPP Standards Referenced
 
