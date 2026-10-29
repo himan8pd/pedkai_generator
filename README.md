@@ -3,6 +3,24 @@
 A UK-scale converged telecom operator dataset generator for [Pedkai](https://github.com/your-org/pedkai) — producing radio-layer physics, multi-domain KPIs, scenario injection, and CMDB degradation data for Dark Graph training and ML model development.
 
 > **Origin:** This repo was forked from [Sleeping-Cell-KPI-Data](https://github.com/adityonugrohoid/telecom-digital-twin) (3 CSV files of sleeping cell KPIs) and later renamed to `pedkai_generator` once its scope outgrew the original. The original CSV files are preserved in the repo root for reference.
+>
+> **About Pedk.ai**
+Pedk.ai is an AI-native network operations intelligence platform for telecom operators. It finds the Dark Graph: the undocumented dependencies, phantom configuration items and silently degraded cells that inventory and assurance systems never see.
+
+> **How it works, in outline:*
+
+>>Abeyance Memory. Holds unresolved evidence fragments until later, unrelated evidence corroborates them into ranked, confidence-scored hypotheses.
+>>Retrieval. PostgreSQL with pgvector. Temporal-semantic and topology-enriched embeddings let an event in one network domain (transport) match an event in another (RAN) with no shared vocabulary.
+>>Reasoning. Dempster-Shafer and Noisy-OR evidence fusion, causal discovery, and an LLM agent that builds an explainable evidence chain, not a bare score.
+>>Governance. Graduated autonomy (Level 0 Observe to Level 3 Gated Autonomous), human override, full audit trail and kill-switch. On-premises inference for operator data sovereignty.
+
+>>The Pedk.ai platform is private. This generator is public because operators cannot share customer network data. It is how Pedk.ai is trained and tested without it.
+
+>*Why this generator exists?*
+>Real operator data is confidential, incomplete and wrong in ways nobody has recorded. To prove that Pedk.ai finds those errors, the test data must contain known errors. This generator builds a full converged operator (radio physics, multi-domain KPIs, topology, customers), then deliberately corrupts the CMDB in six documented ways. The ground truth is kept, so every finding Pedk.ai makes can be scored.
+
+>Author
+>Himanshu Thakur – founder and architect of Pedk.ai (HT Advisers Limited). 25 years in telecom OSS/BSS architecture at Three UK/VodafoneThree, Nokia, Ericsson, MBNL and BT. LinkedIn · Pedk.ai code available for review on request.
 
 ---
 
